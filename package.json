@@ -1,0 +1,12 @@
+{
+  "name": "axonista-movie-db",
+  "version": "1.0.0",
+  "description": "A Roku application written in BrighterScript",
+  "scripts": {
+    "build": "bsc"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "brighterscript": "^0.51.4"
+  }
+}
