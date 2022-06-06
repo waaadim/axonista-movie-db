@@ -1,8 +1,12 @@
+import "pkg:/components/module/event-bus/EventBus.bs"
+import "pkg:/components/module/navigation/Navigation.bs"
+
 sub init()
-    m.top.setFocus(true)
-    m.mainLabel = m.top.findNode("mainLabel")
-    'change the color
-    m.mainLabel.color = "0xFFFFFF"
-    'make the text really big 
-    m.mainLabel.font.size = 100
+    EventBus().init()
+    Navigation().init(m.top)
 end sub
+
+function onKeyEvent(key as String, press as Boolean) as Boolean
+    ? `Scene.onKeyEvent ${key} ${press}`
+    return false
+end function

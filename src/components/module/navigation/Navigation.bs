@@ -1,0 +1,24 @@
+function Navigation() as Object
+    return {
+        init: Navigation_init
+        add: Navigation_add ' push is a reserved word
+        global: m.global
+    }
+end function
+
+sub Navigation_init(scene)
+    panelSet = scene.CreateChild("PanelSet")
+    panelSet.translation = [0, 0]
+    screen = panelSet.CreateChild("HomeScreen")
+    screen.setFocus(true)
+
+    m.global.AddField("Navigation_PanelSet", "node", true)
+    m.global.Navigation_PanelSet = panelSet
+end sub
+
+sub Navigation_add(screenName as String, args as Object)
+    screen = m.global.Navigation_PanelSet.CreateChild(screenName)
+    for each key in args
+        screen.SetField(key, args[key])
+    end for
+end sub

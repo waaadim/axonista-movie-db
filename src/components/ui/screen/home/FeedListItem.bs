@@ -1,0 +1,31 @@
+sub init()
+    setNodes()
+    setLayout()
+end sub
+
+sub setNodes()
+    m.focusBorder = m.top.FindNode("focusBorder")
+    m.thumbnail = m.top.FindNode("thumbnail")
+    m.title = m.top.FindNode("title")
+    m.releaseDate = m.top.FindNode("releaseDate")
+end sub
+
+sub setLayout()
+    m.title.font.size = 20
+    m.releaseDate.font.size = 16
+end sub
+
+sub onItemContentChanged()
+    itemData = m.top.itemContent
+    m.title.text = itemData.title
+    m.releaseDate.text = itemData.releaseDate
+    m.thumbnail.uri = itemData.thumbnail
+end sub
+
+sub onFocusChange()
+    if m.top.focusPercent > 0 then
+        m.focusBorder.opacity = m.top.focusPercent
+    else
+        m.focusBorder.opacity = 0
+    end if
+end sub

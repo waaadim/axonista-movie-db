@@ -7,6 +7,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "brighterscript": "^0.51.4"
+    "brighterscript": "^0.51.4",
+    "rooibos-roku": "^5.0.3"
   }
 }

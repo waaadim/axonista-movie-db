@@ -1,0 +1,42 @@
+function EventBus() as Object
+    return {
+        init: EventBus_init
+        sendAnalyticsEvent: EventBus_sendAnalyticsEvent
+        sendNavigationEvent: EventBus_sendNavigationEvent
+        onEvent: EventBus_onEvent
+        onAllEvents: EventBus_onAllEvents
+        getAllModuleNames: EventBus_getAllModuleNames
+        global: m.global
+    }
+end function
+
+sub EventBus_init()
+    m.global.AddField("EventBus_Navigation", "assocarray", true)
+    m.global.AddField("EventBus_Analytics", "assocarray", true)
+end sub
+
+function EventBus_getAllModuleNames() as Object
+    return [
+        "Analytics",
+        "Navigation"
+    ]
+end function
+
+' listener can be "roMessagePort" or function/callback
+sub EventBus_onAllEvents(listener)
+    for each moduleName in m.getAllModuleNames()
+        m.global.ObserveField("EventBus_" + moduleName, listener)
+    end for
+end sub
+
+sub EventBus_onEvent(moduleName as String, listener as Dynamic)
+    m.global.ObserveField("EventBus_" + moduleName, listener)
+end sub
+
+sub EventBus_sendAnalyticsEvent(event as Object)
+    m.global.EventBus_Analytics = event
+end sub
+
+sub EventBus_sendNavigationEvent(event as Object)
+    m.global.EventBus_Navigation = event
+end sub

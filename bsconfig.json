@@ -7,9 +7,19 @@
     "stagingFolderPath": "dist",
     "retainStagingFolder": false,
     "autoImportComponentScript": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "deploy": true,
-    "host": "192.168.100.30",
+    "host": "192.168.100.13",
     "username": "rokudev",
-    "password": "yopeso"
+    "password": "yopeso",
+    "plugins": [
+        "rooibos-roku"
+    ],
+    "rooibos": {
+        "isRecordingCodeCoverage": false,
+        "printTestTimes": true,
+        "testsFilePattern": null,
+        "showOnlyFailures": true,
+        "catchCrashes": false
+    }
 }

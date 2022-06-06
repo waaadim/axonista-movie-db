@@ -1,0 +1,58 @@
+import "pkg:/components/data/home-feed/HomeFeedTask.bs"
+import "pkg:/components/module/navigation/Navigation.bs"
+
+sub init()
+    m.list = m.top.FindNode("feedList")
+
+    m.top.observeField("focusedChild", "onFocusChange")
+    m.list.ObserveField("rowItemSelected", "rowItemSelected")
+    m.list.ObserveField("rowItemFocused", "rowItemFocused")
+    m.list.ObserveField("currFocusColumn", "currFocusColumn")
+    setupFeedList()
+    setLayout()
+end sub
+
+sub setupFeedList()
+    content = CreateObject("roSGNode", "ContentNode")
+    row = content.CreateChild("ContentNode")
+    row.title = "Top Movies"
+    m.list.content = content
+    m.topMoviesPage = 0
+    m.canLoadNextPage = true
+end sub
+
+sub setLayout()
+    m.top.panelSize = "full"
+    m.top.leftPosition = 60
+    m.top.hasNextPanel = true
+    m.top.isFullScreen = true
+    m.top.selectButtonMovesPanelForward = true
+end sub
+
+sub updateHomeFeed(event)
+    m.list.content.GetChild(0).AppendChildren(event.Getdata().getChildren(20, 0))
+    m.canLoadNextPage = true
+end sub
+
+' there should be a better way to do this
+sub onFocusChange()
+    if m.list.focusable then m.list.SetFocus(true)
+end sub
+
+sub rowItemSelected(event)
+    rowAndCol = event.Getdata()
+    selectedItem = m.list.content.GetChild(rowAndCol[0]).GetChild(rowAndCol[1])
+    Navigation().add("MovieDetailScreen", {
+        movieId: selectedItem.id
+    })
+end sub
+
+sub rowItemFocused(event)
+    rowAndCol = event.Getdata()
+    topMoviesRow = m.list.content.GetChild(rowAndCol[0])
+    if rowAndCol[1] + 10 > topMoviesRow.GetChildCount() and m.canLoadNextPage then
+        m.canLoadNextPage = false
+        m.topMoviesPage += 1
+        getHomeFeed("updateHomeFeed", m.topMoviesPage)
+    end if
+end sub
